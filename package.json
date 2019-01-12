@@ -23,7 +23,7 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^23.3.10",
+    "@types/jest": "^23.3.12",
     "@types/node": "^10.12.18",
     "concurrently": "^4.1.0",
     "husky": "^1.2.0",
