@@ -1,30 +1,50 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import { Security } from "@okta/okta-react";
+import { Router } from "react-router-dom";
+import { Security, Auth } from "@okta/okta-react";
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import { Provider } from "react-redux";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
+import { createBrowserHistory } from "history";
 
-import App from "./App";
+import "./index.css";
 import * as serviceWorker from "./serviceWorker";
+import App from "./App";
+import registration from './registration/data/reducer';
+import login from "./login/data/reducer";
+import profile from "./profile/data/reducer";
 
-function onAuthRequired({ history }) {
-  history.push("/login");
-}
+const reducers = combineReducers({
+  registration: registration,
+  login: login,
+  profile: profile
+});
+
+/* eslint-disable no-underscore-dangle */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(logger, thunk)));
+/* eslint-enable */
 
 const { REACT_APP_OKTA_ORG_URL, REACT_APP_OKTA_CLIENT_ID } = process.env;
+const history = createBrowserHistory();
 
-const oktaConfig = {
+const oktaConfig = new Auth({
+  history,
   issuer: `${REACT_APP_OKTA_ORG_URL}/oauth2/default`,
   redirect_uri: `${window.location.origin}/implicit/callback`,
   client_id: REACT_APP_OKTA_CLIENT_ID,
-  onAuthRequired,
-};
+  onAuthRequired: ({ history }) => history.push("/login"),
+});
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Security {...oktaConfig}>
-      <App />
-    </Security>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <Router history={history}>
+      <Security auth={oktaConfig}>
+        <App />
+      </Security>
+    </Router>
+  </Provider>,
   document.getElementById("root"),
 );
 

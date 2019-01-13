@@ -1,12 +1,14 @@
 import React from "react";
 import OktaAuth from "@okta/okta-auth-js";
 import { withAuth } from "@okta/okta-react";
+import { connect } from "react-redux";
+
+import { loginApiCall } from "../data/actions";
 
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sessionToken: null,
       error: null,
       username: "",
       password: "",
@@ -21,20 +23,7 @@ class LoginForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.oktaAuth
-      .signIn({
-        username: this.state.username,
-        password: this.state.password,
-      })
-      .then(res =>
-        this.setState({
-          sessionToken: res.sessionToken,
-        }),
-      )
-      .catch(err => {
-        this.setState({ error: err.message });
-        console.log(err.statusCode + " error", err);
-      });
+    this.props.loginApiCall(this.oktaAuth, this.state.username, this.state.password);
   }
 
   handleUsernameChange(e) {
@@ -46,8 +35,8 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    if (this.state.sessionToken) {
-      this.props.auth.redirect({ sessionToken: this.state.sessionToken });
+    if (this.props.sessionToken) {
+      this.props.auth.redirect({ sessionToken: this.props.sessionToken });
       return null;
     }
 
@@ -57,6 +46,8 @@ class LoginForm extends React.Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
+      <h3>Login Form</h3>
+        <br />
         {errorMessage}
         <div className="form-element">
           <label>Username:</label>
@@ -83,4 +74,17 @@ class LoginForm extends React.Component {
   }
 }
 
-export default withAuth(LoginForm);
+const mapStateToProps = state => ({
+  sessionToken: state.login.sessionToken,
+  error: state.login.error,
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginApiCall: (oktaAuth, username, password) =>
+    dispatch(loginApiCall(oktaAuth, username, password)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withAuth(LoginForm));

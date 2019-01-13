@@ -26,12 +26,18 @@ class Navigation extends React.Component {
     const authNav = this.state.authenticated ? (
       <ul className="auth-nav">
         <li>
-          <a href="javascript:void(0)" onClick={() => this.props.auth.logout()}>
-            Logout
-          </a>
+          <Link to="/stream">Start streaming</Link>
+        </li>
+        <li>
+          <Link to="/view">View a stream</Link>
         </li>
         <li>
           <Link to="/profile">Profile</Link>
+        </li>
+        <li>
+          <a href="javascript:void(0)" onClick={() => this.props.auth.logout()}>
+            Logout
+          </a>
         </li>
       </ul>
     ) : (

@@ -1,6 +1,9 @@
 import React from "react";
 import OktaAuth from "@okta/okta-auth-js";
 import { withAuth } from "@okta/okta-react";
+import { connect } from "react-redux";
+
+import { registrationApiCall } from "../data/actions";
 
 const { REACT_APP_OKTA_ORG_URL } = process.env;
 
@@ -51,27 +54,7 @@ class RegistrationForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    fetch("/api/users", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(this.state),
-    })
-      .then(user => {
-        this.oktaAuth
-          .signIn({
-            username: this.state.email,
-            password: this.state.password,
-          })
-          .then(res =>
-            this.setState({
-              sessionToken: res.sessionToken,
-            }),
-          );
-      })
-      .catch(err => console.log);
+    this.props.registrationApiCall(this.oktaAuth, this.state);
   }
 
   render() {
@@ -80,9 +63,14 @@ class RegistrationForm extends React.Component {
       return null;
     }
 
+    const errorMessage = this.props.error ? <span>{this.props.error}</span> : null;
+
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="form-element">
+        <h3>Registration Form</h3>
+        <br />
+        {errorMessage}
+        <div>
           <label>Email:</label>
           <input
             type="email"
@@ -91,7 +79,7 @@ class RegistrationForm extends React.Component {
             onChange={this.handleEmailChange}
           />
         </div>
-        <div className="form-element">
+        <div>
           <label>First Name:</label>
           <input
             type="text"
@@ -100,7 +88,7 @@ class RegistrationForm extends React.Component {
             onChange={this.handleFirstNameChange}
           />
         </div>
-        <div className="form-element">
+        <div>
           <label>Last Name:</label>
           <input
             type="text"
@@ -109,7 +97,7 @@ class RegistrationForm extends React.Component {
             onChange={this.handleLastNameChange}
           />
         </div>
-        <div className="form-element">
+        <div>
           <label>Password:</label>
           <input
             type="password"
@@ -124,4 +112,16 @@ class RegistrationForm extends React.Component {
   }
 }
 
-export default withAuth(RegistrationForm);
+const mapStateToProps = state => ({
+  sessionToken: state.login.sessionToken,
+  error: state.registration.error,
+});
+
+const mapDispatchToProps = dispatch => ({
+  registrationApiCall: (oktaAuth, data) => dispatch(registrationApiCall(oktaAuth, data)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withAuth(RegistrationForm));
