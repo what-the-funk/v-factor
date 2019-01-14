@@ -1,6 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 // import { withAuth } from "@okta/okta-react";
+
+import Link from "./Link";
 
 class Navigation extends React.Component {
   // async checkAuthentication() {
@@ -64,13 +66,17 @@ class Navigation extends React.Component {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
           </li>
           <li>
-            <Link to="/stream">Start streaming</Link>
+            <Link to="/stream" path={this.props.location.pathname} match="stream">
+              Start streaming
+            </Link>
           </li>
           <li>
-            <Link to="/view">View a stream</Link>
+            <Link path={this.props.location.pathname} to="/view" match="view">
+              View a stream
+            </Link>
           </li>
         </ul>
       </nav>
@@ -78,4 +84,4 @@ class Navigation extends React.Component {
   }
 }
 
-export default Navigation;
+export default withRouter(Navigation);
