@@ -27,4 +27,15 @@ const deleteRoom = (state = initialState, action) => {
   }
 };
 
-export default combineReducers({ createRoom, deleteRoom });
+const getRoom = (state = initialState, action) => {
+  switch (action.type) {
+    case "GET_RANDOM_ROOM_SUCCESS":
+      return Object.assign({}, state, { error: null, success: action.payload });
+    case "GET_RANDOM_ROOM_ERROR":
+      return Object.assign({}, state, { error: action.payload, success: null });
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({ createRoom, deleteRoom, getRoom });

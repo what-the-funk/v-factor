@@ -12,12 +12,14 @@ import { reducer as simplewebrtc } from "@andyet/simplewebrtc";
 // import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import stream from "./stream/data/reducer";
 // import registration from "./registration/data/reducer";
 // import login from "./login/data/reducer";
 // import profile from "./profile/data/reducer";
 
 const reducers = combineReducers({
   simplewebrtc,
+  stream,
   // registration: registration,
   // login: login,
   // profile: profile,

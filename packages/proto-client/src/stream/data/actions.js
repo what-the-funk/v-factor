@@ -1,24 +1,36 @@
 import axios from "axios";
 
-export const createRooomError = error => ({
+export const createRoomError = error => ({
   type: "CREATE_ROOM_ERROR",
   payload: error,
 });
 
-export const createRooomSuccess = () => ({
+export const createRoomSuccess = roomName => ({
   type: "CREATE_ROOM_SUCCESS",
+  payload: roomName,
 });
 
-export const deleteRooomError = error => ({
+export const deleteRoomError = error => ({
   type: "DELETE_ROOM_ERROR",
   payload: error,
 });
 
-export const deleteRooomSuccess = () => ({
+export const deleteRoomSuccess = roomName => ({
   type: "DELETE_ROOM_SUCCESS",
+  payload: roomName,
 });
 
-export const createRooomApiCall = roomName => dispatch => {
+export const getRandomRoomError = error => ({
+  type: "GET_RANDOM_ROOM_ERROR",
+  payload: error,
+});
+
+export const getRandomRoomSuccess = roomName => ({
+  type: "GET_RANDOM_ROOM_SUCCESS",
+  payload: roomName,
+});
+
+export const createRoomApiCall = roomName => dispatch => {
   return axios({
     method: "post",
     url: "/api/rooms",
@@ -30,31 +42,39 @@ export const createRooomApiCall = roomName => dispatch => {
       },
     },
   })
-    .then(json => {
-      dispatch(createRooomSuccess());
+    .then(({ data }) => {
+      dispatch(createRoomSuccess(data.name));
     })
     .catch(err => {
       console.log(err);
-      dispatch(createRooomError(err.message));
+      dispatch(createRoomError(err.message));
     });
 };
 
-export const deleteRooomApiCall = roomName => dispatch => {
+export const deleteRoomApiCall = roomName => dispatch => {
   return axios({
     method: "delete",
     url: `/api/rooms/${roomName}`,
-    config: {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    },
   })
-    .then(json => {
-      dispatch(deleteRooomSuccess());
+    .then(({ data }) => {
+      dispatch(deleteRoomSuccess(data.name));
     })
     .catch(err => {
       console.log(err);
-      dispatch(deleteRooomError(err.message));
+      dispatch(deleteRoomError(err.message));
+    });
+};
+
+export const getRandomRoomApiCall = () => dispatch => {
+  return axios({
+    method: "get",
+    url: `/api/rooms`,
+  })
+    .then(({ data }) => {
+      dispatch(getRandomRoomSuccess(data.name));
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch(getRandomRoomError(err.message));
     });
 };

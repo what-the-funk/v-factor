@@ -22,37 +22,37 @@ import {
   ChatInput,
 } from "@andyet/simplewebrtc";
 
-import { createRooomApiCall, deleteRooomApiCall } from "../data/actions";
+import { createRoomApiCall, deleteRoomApiCall } from "../data/actions";
 
 const { REACT_APP_SIMPLEWEBRTC_API_KEY } = process.env;
 const CONFIG_URL = `https://api.simplewebrtc.com/config/guest/${REACT_APP_SIMPLEWEBRTC_API_KEY}`;
 
 class Streamer extends React.Component {
   componentDidMount() {
-    const { history, match, createRooomApiCall } = this.props;
+    const { history, match, createRoom } = this.props;
     const roomName = match.params.room;
     if (!roomName) {
       const newRoomName = UUID.v4();
       history.push(`/stream/${newRoomName}`);
-      createRooomApiCall(newRoomName);
+      createRoom(newRoomName);
     }
   }
 
   componentWillUnmount() {
-    const { match, deleteRooomApiCall } = this.props;
+    const { match, deleteRoom } = this.props;
     const roomName = match.params.room;
-    deleteRooomApiCall(roomName);
+    deleteRoom(roomName);
   }
 
   render() {
-    const { configUrl = CONFIG_URL, userData, match } = this.props;
+    const { configUrl = CONFIG_URL, match } = this.props;
     const roomName = match.params.room;
     const roomPassword = match.params.key || "";
 
     if (!roomName) return null;
 
     return (
-      <SimpleWebRTCProvider configUrl={configUrl} userData={userData}>
+      <SimpleWebRTCProvider configUrl={configUrl}>
         {/* <RemoteAudioPlayer /> */}
 
         <Connecting>
@@ -128,7 +128,7 @@ class Streamer extends React.Component {
                     <div>
                       <GridLayout
                         className="videogrid"
-                        items={[...localVideos, ...remoteVideos]}
+                        items={[...localVideos]}
                         renderCell={item => <Video media={item} />}
                       />
                     </div>
@@ -166,8 +166,8 @@ class Streamer extends React.Component {
 
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
-  createRooomApiCall: roomName => dispatch(createRooomApiCall(roomName)),
-  deleteRooomApiCall: roomName => dispatch(deleteRooomApiCall(roomName)),
+  createRoom: roomName => dispatch(createRoomApiCall(roomName)),
+  deleteRoom: roomName => dispatch(deleteRoomApiCall(roomName)),
 });
 
 export default connect(
