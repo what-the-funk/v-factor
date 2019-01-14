@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 // import ContentEditable from "react-contenteditable";
 import * as UUID from "uuid";
 import { withRouter } from "react-router-dom";
-
 import {
   Provider as SimpleWebRTCProvider,
   Connected,
@@ -23,16 +22,26 @@ import {
   ChatInput,
 } from "@andyet/simplewebrtc";
 
+import { createRooomApiCall, deleteRooomApiCall } from "../data/actions";
+
 const { REACT_APP_SIMPLEWEBRTC_API_KEY } = process.env;
 const CONFIG_URL = `https://api.simplewebrtc.com/config/guest/${REACT_APP_SIMPLEWEBRTC_API_KEY}`;
 
 class Streamer extends React.Component {
   componentDidMount() {
-    const { history, match } = this.props;
+    const { history, match, createRooomApiCall } = this.props;
     const roomName = match.params.room;
     if (!roomName) {
-      history.push(`/stream/${UUID.v4()}`);
+      const newRoomName = UUID.v4();
+      history.push(`/stream/${newRoomName}`);
+      createRooomApiCall(newRoomName);
     }
+  }
+
+  componentWillUnmount() {
+    const { match, deleteRooomApiCall } = this.props;
+    const roomName = match.params.room;
+    deleteRooomApiCall(roomName);
   }
 
   render() {
@@ -156,7 +165,10 @@ class Streamer extends React.Component {
 }
 
 const mapStateToProps = state => ({});
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  createRooomApiCall: roomName => dispatch(createRooomApiCall(roomName)),
+  deleteRooomApiCall: roomName => dispatch(deleteRooomApiCall(roomName)),
+});
 
 export default connect(
   mapStateToProps,

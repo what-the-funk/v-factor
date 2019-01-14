@@ -12,20 +12,17 @@ export const loginSuccess = data => ({
   payload: data,
 });
 
-export const loginApiCall = (oktaAuth, username, password) => {
-  return dispatch => {
-    return oktaAuth
-      .signIn({
-        username: username,
-        password: password,
-      })
-      .then(res => {
-        console.log(JSON.stringify(res));
-        dispatch(loginSuccess(res.sessionToken));
-      })
-      .catch(err => {
-        console.log(err.message + "\n error", err);
-        dispatch(loginError(err.message));
-      });
-  };
-};
+export const loginApiCall = (oktaAuth, username, password) => dispatch =>
+  oktaAuth
+    .signIn({
+      username: username,
+      password: password,
+    })
+    .then(res => {
+      console.log(JSON.stringify(res));
+      dispatch(loginSuccess(res.sessionToken));
+    })
+    .catch(err => {
+      console.log(err.message + "\n error", err);
+      dispatch(loginError(err.message));
+    });

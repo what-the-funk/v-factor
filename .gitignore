@@ -119,3 +119,6 @@ Temporary Items
 
 # node packages build output
 **/dist
+
+# local databases
+*.sqlite3

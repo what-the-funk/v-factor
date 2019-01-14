@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import logger from "redux-logger";
+import { createLogger } from "redux-logger";
 import thunk from "redux-thunk";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
@@ -21,6 +21,11 @@ const reducers = combineReducers({
   // registration: registration,
   // login: login,
   // profile: profile,
+});
+
+const logger = createLogger({
+  collapsed: true,
+  predicate: (getState, action) => action.type && !action.type.includes("@andyet"),
 });
 
 /* eslint-disable no-underscore-dangle */
