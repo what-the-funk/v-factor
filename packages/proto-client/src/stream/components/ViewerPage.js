@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 // import ContentEditable from "react-contenteditable";
-import * as UUID from "uuid";
 import {
   Provider as SimpleWebRTCProvider,
   Connected,
@@ -9,11 +8,11 @@ import {
   Disconnected,
   Room,
   Video,
-  PeerList,
+  // PeerList,
   GridLayout,
-  ChatComposers,
-  ChatList,
-  ChatInput,
+  // ChatComposers,
+  // ChatList,
+  // ChatInput,
 } from "@andyet/simplewebrtc";
 
 // import ViewerRoom from "./ViewerRoom";

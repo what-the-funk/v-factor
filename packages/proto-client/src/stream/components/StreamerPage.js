@@ -10,16 +10,16 @@ import {
   Disconnected,
   Room,
   RequestUserMedia,
-  RequestDisplayMedia,
-  RemoteAudioPlayer,
-  MediaControls,
-  UserControls,
+  // RequestDisplayMedia,
+  // RemoteAudioPlayer,
+  // MediaControls,
+  // UserControls,
   Video,
   PeerList,
   GridLayout,
-  ChatComposers,
-  ChatList,
-  ChatInput,
+  // ChatComposers,
+  // ChatList,
+  // ChatInput,
 } from "@andyet/simplewebrtc";
 
 import { createRoomApiCall, deleteRoomApiCall } from "../data/actions";
@@ -71,9 +71,9 @@ class Streamer extends React.Component {
                 return <h1>Joining room...</h1>;
               }
 
-              const remoteVideos = remoteMedia.filter(m => m.kind === "video");
+              // const remoteVideos = remoteMedia.filter(m => m.kind === "video");
               const localVideos = localMedia.filter(m => m.kind === "video" && m.shared);
-              const localScreens = localVideos.filter(m => m.screenCapture);
+              // const localScreens = localVideos.filter(m => m.screenCapture);
 
               return (
                 <div>
