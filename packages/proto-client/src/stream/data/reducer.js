@@ -38,4 +38,15 @@ const getRoom = (state = initialState, action) => {
   }
 };
 
-export default combineReducers({ createRoom, deleteRoom, getRoom });
+const downvoteRoom = (state = initialState, action) => {
+  switch (action.type) {
+    case "DOWNVOTE_ROOM_SUCCESS":
+      return Object.assign({}, state, { error: null, success: action.payload });
+    case "DOWNVOTE_ROOM_ERROR":
+      return Object.assign({}, state, { error: action.payload, success: null });
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({ createRoom, deleteRoom, getRoom, downvoteRoom });

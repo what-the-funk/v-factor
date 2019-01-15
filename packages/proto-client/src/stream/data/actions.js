@@ -30,17 +30,20 @@ export const getRandomRoomSuccess = roomName => ({
   payload: roomName,
 });
 
+export const downvoteRoomError = error => ({
+  type: "DOWNVOTE_ROOM_ERROR",
+  payload: error,
+});
+
+export const downvoteRoomSuccess = roomName => ({
+  type: "DOWNVOTE_ROOM_SUCCESS",
+  payload: roomName,
+});
+
 export const createRoomApiCall = roomName => dispatch => {
   return axios({
-    method: "post",
-    url: "/api/rooms",
-    data: { roomName },
-    config: {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    },
+    method: "put",
+    url: `/api/rooms/${roomName}`,
   })
     .then(({ data }) => {
       dispatch(createRoomSuccess(data.name));
@@ -76,5 +79,26 @@ export const getRandomRoomApiCall = () => dispatch => {
     .catch(err => {
       console.log(err);
       dispatch(getRandomRoomError(err.message));
+    });
+};
+
+export const downvoteRoomApiCall = roomName => dispatch => {
+  return axios({
+    method: "put",
+    url: `/api/rooms/${roomName}`,
+    data: { downvotes: 1 },
+    config: {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    },
+  })
+    .then(({ data }) => {
+      dispatch(downvoteRoomSuccess(data.name));
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch(downvoteRoomError(err.message));
     });
 };

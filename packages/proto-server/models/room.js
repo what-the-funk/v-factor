@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "Room",
     {
       name: DataTypes.STRING,
+      downvotes: DataTypes.INTEGER,
     },
     {
       indexes: [

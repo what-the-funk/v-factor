@@ -8,11 +8,6 @@ import {
   Connecting,
   Disconnected,
   Room,
-  RequestUserMedia,
-  RequestDisplayMedia,
-  RemoteAudioPlayer,
-  MediaControls,
-  UserControls,
   Video,
   PeerList,
   GridLayout,
@@ -21,17 +16,37 @@ import {
   ChatInput,
 } from "@andyet/simplewebrtc";
 
-import { getRandomRoomApiCall } from "../data/actions";
+// import ViewerRoom from "./ViewerRoom";
+import { getRandomRoomApiCall, downvoteRoomApiCall } from "../data/actions";
 
 const { REACT_APP_SIMPLEWEBRTC_API_KEY } = process.env;
 const CONFIG_URL = `https://api.simplewebrtc.com/config/guest/${REACT_APP_SIMPLEWEBRTC_API_KEY}`;
 
 class Viewer extends React.Component {
-  async componentDidMount() {
+  constructor(props) {
+    super(props);
+
+    this.handleDownvote = this.handleDownvote.bind(this);
+  }
+
+  componentDidMount() {
     const { roomName, getRandomRoom } = this.props;
     if (!roomName) {
-      getRandomRoom()
+      getRandomRoom();
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { roomName } = this.props;
+    return roomName !== nextProps.roomName;
+  }
+
+  handleDownvote() {
+    const { roomName, downvoteRoom } = this.props;
+    downvoteRoom(roomName).then(() => {
+      // todo: find a better way
+      window.location.reload(true);
+    });
   }
 
   render() {
@@ -40,85 +55,42 @@ class Viewer extends React.Component {
     if (!roomName) return null;
 
     return (
-      <SimpleWebRTCProvider configUrl={configUrl}>
-        {/* <RemoteAudioPlayer /> */}
+      <div>
+        <button onClick={this.handleDownvote}>Downvote</button>
+        <SimpleWebRTCProvider configUrl={configUrl}>
+          <Connecting>
+            <h1>Connecting...</h1>
+          </Connecting>
 
-        <Connecting>
-          <h1>Connecting...</h1>
-        </Connecting>
+          <Disconnected>
+            <h1>Lost connection. Reattempting to join...</h1>
+          </Disconnected>
 
-        <Disconnected>
-          <h1>Lost connection. Reattempting to join...</h1>
-        </Disconnected>
+          <Connected>
+            <Room name={roomName}>
+              {({ room, remoteMedia, ...rest }) => {
+                if (!room.joined) {
+                  return <h1>Joining room...</h1>;
+                }
 
-        <Connected>
-          <Room name={roomName}>
-            {({ room, peers, localMedia, remoteMedia }) => {
-              if (!room.joined) {
-                return <h1>Joining room...</h1>;
-              }
+                const remoteVideos = remoteMedia.filter(m => m.kind === "video");
 
-              const remoteVideos = remoteMedia.filter(m => m.kind === "video");
-
-              return (
-                <div>
-                  <div>
-                    <h1>{room.providedName}</h1>
-                    <div>
-                      <span>
-                        {peers.length} Peer{peers.length !== 1 ? "s" : ""}
-                      </span>
-                      <PeerList
-                        room={room.address}
-                        speaking
-                        render={({ peers }) => {
-                          if (peers.length === 0) {
-                            return null;
-                          }
-                          return <span> ({peers.length} speaking)</span>;
-                        }}
-                      />
-                    </div>
-
-                    {/* <div>
-                      {/* {!!!localScreens.length && <RequestDisplayMedia />}
-                    {!!localScreens.length && (
-                    <MediaControls
-                      media={localScreens[0]}
-                      autoRemove
-                      render={({ stopSharing }) => (
-                        <button onClick={stopSharing}>Stop Screenshare</button>
-                      )}
-                    />
-                      )}
-                    </div>
-                    <UserControls
-                      render={({ user, isMuted, mute, unmute, setDisplayName }) => (
-                        <div>
-                          <ContentEditable
-                            html={user.displayName}
-                            onChange={event => {
-                              setDisplayName(event.target.value.trim());
-                            }}
-                          />
-                          <button onClick={() => (isMuted ? unmute() : mute())}>
-                            {isMuted ? 'Unmute' : 'Mute'}
-                          </button>
-                        </div>
-                      )}
-                    /> */}
-                  </div>
-
+                return (
                   <div>
                     <div>
-                      <GridLayout
-                        className="videogrid"
-                        items={[...remoteVideos]}
-                        renderCell={item => <Video media={item} />}
-                      />
+                      <h1>{room.providedName}</h1>
                     </div>
 
-                    {/* <div>
+                    <div>
+                      <div>
+                        <GridLayout
+                          className="videogrid"
+                          items={[...remoteVideos]}
+                          renderCell={item => <Video media={item} />}
+                        />
+                      </div>
+
+                      {/* <div>
                       <ChatList
                         room={room.address}
                         renderGroup={({ chats, peer }) => (
@@ -138,13 +110,14 @@ class Viewer extends React.Component {
                         <ChatComposers room={room.address} />
                       </div>
                     </div> */}
+                    </div>
                   </div>
-                </div>
-              );
-            }}
-          </Room>
-        </Connected>
-      </SimpleWebRTCProvider>
+                );
+              }}
+            </Room>
+          </Connected>
+        </SimpleWebRTCProvider>
+      </div>
     );
   }
 }
@@ -154,6 +127,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
   getRandomRoom: () => dispatch(getRandomRoomApiCall()),
+  downvoteRoom: roomName => dispatch(downvoteRoomApiCall(roomName)),
 });
 
 export default connect(
