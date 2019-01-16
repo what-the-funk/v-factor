@@ -8,6 +8,14 @@ install:
   - yarn global add lerna jest
   - lerna bootstrap
 
+matrix:
+  include:
+    - name: "Client's app prototype Pipeline"
+      env: PACKAGE_LOCATION=packages/proto-client
+    - name: "Server's app prototype Pipeline"
+      env: PACKAGE_LOCATION=packages/proto-server
+
 script:
+  - cd $PACKAGE_LOCATION
   - yarn test
   - yarn build
