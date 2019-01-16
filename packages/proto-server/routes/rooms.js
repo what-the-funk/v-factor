@@ -65,6 +65,8 @@ router.put("/:roomName", async (req, res, next) => {
     if (req.body.downvotes) {
       if (req.body.downvotes !== 1) return res.sendStatus(400);
       newRoom = await roomClient.downvoteRoom(roomName);
+    } else if (req.body.peers >= 0) {
+      newRoom = await roomClient.updateRoom({ peers: req.body.peers }, roomName);
     } else {
       newRoom = await roomClient.createRoom(roomName);
     }

@@ -15,6 +15,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: "0",
       },
+      peers: {
+        type: Sequelize.INTEGER,
+        defaultValue: "0",
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

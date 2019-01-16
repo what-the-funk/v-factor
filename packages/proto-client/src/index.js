@@ -12,6 +12,7 @@ import { reducer as simplewebrtc } from "@andyet/simplewebrtc";
 // import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import peersMiddleware from "./stream/data/middleware";
 import stream from "./stream/data/reducer";
 // import registration from "./registration/data/reducer";
 // import login from "./login/data/reducer";
@@ -32,7 +33,10 @@ const logger = createLogger({
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(applyMiddleware(logger, thunk)));
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(logger, thunk, peersMiddleware)),
+);
 /* eslint-enable */
 
 // const { REACT_APP_OKTA_ORG_URL, REACT_APP_OKTA_CLIENT_ID } = process.env;

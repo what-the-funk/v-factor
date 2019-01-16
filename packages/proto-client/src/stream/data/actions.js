@@ -86,13 +86,7 @@ export const downvoteRoomApiCall = roomName => dispatch => {
   return axios({
     method: "put",
     url: `/api/rooms/${roomName}`,
-    data: { downvotes: 1 },
-    config: {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    },
+    data: { downvotes: 1 }
   })
     .then(({ data }) => {
       dispatch(downvoteRoomSuccess(data.name));
@@ -102,3 +96,4 @@ export const downvoteRoomApiCall = roomName => dispatch => {
       dispatch(downvoteRoomError(err.message));
     });
 };
+

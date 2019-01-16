@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       downvotes: DataTypes.INTEGER,
+      peers: DataTypes.INTEGER,
     },
     {
       indexes: [

@@ -83,7 +83,7 @@ class Streamer extends React.Component {
                       <span>
                         {peers.length} Peer{peers.length !== 1 ? "s" : ""}
                       </span>
-                      <PeerList
+                      {/* <PeerList
                         room={room.address}
                         speaking
                         render={({ peers }) => {
@@ -92,7 +92,7 @@ class Streamer extends React.Component {
                           }
                           return <span> ({peers.length} speaking)</span>;
                         }}
-                      />
+                      /> */}
                     </div>
 
                     {/* <div>
