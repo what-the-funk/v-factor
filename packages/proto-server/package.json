@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build": "echo 'no need for building!'",
     "dev": "DEBUG=proto-server:* nodemon ./bin/www",
     "test": "jest"
   },

@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "name": "v-factor",
+  "builds": [
+    { "src": "packages/proto-server/bin/www", "use": "@now/node@0.4.28-canary.4" },
+    { "src": "packages/proto-client/package.json", "use": "@now/static-build" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "packages/proto-server/bin/www" },
+
+    { "src": "^/static/(.*)", "dest": "/packages/proto-client/static/$1" },
+    { "src": "^/favicon.ico", "dest": "/packages/proto-client/favicon.ico" },
+    { "src": "^/asset-manifest.json", "dest": "/packages/proto-client/asset-manifest.json" },
+    { "src": "^/manifest.json", "dest": "/packages/proto-client/manifest.json" },
+    {
+      "src": "^/service-worker.js",
+      "headers": { "cache-control": "s-maxage=0" },
+      "dest": "/packages/proto-client/service-worker.js"
+    },
+    { "src": "^/precache-manifest.(.*)", "dest": "/packages/proto-client/precache-manifest.$1" },
+    { "src": "^/(.*)", "dest": "/packages/proto-client/index.html" }
+  ],
+  "env": {
+    "REACT_APP_SIMPLEWEBRTC_API_KEY": "b0ca97ec4c648de2c7aa50c5"
+  }
+}
