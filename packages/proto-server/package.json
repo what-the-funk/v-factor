@@ -1,9 +1,10 @@
 {
-  "name": "proto-server",
+  "name": "@v-factor/proto-server",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "DEBUG=proto-server:* nodemon ./bin/www"
+    "dev": "DEBUG=proto-server:* nodemon ./bin/www",
+    "test": "jest"
   },
   "dependencies": {
     "@okta/okta-sdk-nodejs": "^1.2.0",
@@ -11,6 +12,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
+    "jest": "^23.6.0",
     "morgan": "~1.9.0",
     "sequelize": "^4.42.0",
     "sqlite": "^3.0.0"
