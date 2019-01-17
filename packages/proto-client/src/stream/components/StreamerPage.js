@@ -15,7 +15,7 @@ import {
   // MediaControls,
   // UserControls,
   Video,
-  PeerList,
+  // PeerList,
   GridLayout,
   // ChatComposers,
   // ChatList,
