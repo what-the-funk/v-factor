@@ -7,7 +7,7 @@ cache:
     - node_modules
 
 install:
-  - yarn global add lerna jest
+  - yarn global add lerna jest now
   - lerna bootstrap
 
 matrix:
