@@ -8,14 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "precommit": "lint-staged",
     "publish": "lerna run build && lerna publish"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "git add"
-    ]
   },
   "dependencies": {
     "@types/node": "^10.12.18",
