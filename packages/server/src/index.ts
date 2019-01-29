@@ -1,14 +1,35 @@
 import express from "express";
+import { ExpressPeerServer } from "peer";
+import { readFileSync } from "fs";
+import path from "path";
+import https from "https";
 
 const app = express();
-const port = 8080; // default port to listen
-
-// define a route handler for the default home page
-app.get("/", (req, res) => {
-  res.send("Hello world!");
-});
+const port = 9000; // default port to listen
+const options = { debug: true };
+const pathToCerts = (name: string) =>
+  readFileSync(path.resolve(__dirname, "..", "certs", `${name}.dev.pem`));
+const httpsOptions = { key: pathToCerts("key"), cert: pathToCerts("cert") };
 
 // start the Express server
-app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
+const expressServer = https.createServer(httpsOptions, app).listen(3000, () => {
+  console.log("Express + Peer listening on port 3000! 🔥 https://localhost:3000/");
 });
+
+// start the Peer server
+const peerServer = ExpressPeerServer(expressServer, options);
+
+peerServer.on("connection", (id: string) => {
+  console.log("peer connection -> ", id);
+});
+
+peerServer.on("disconnect", (id: string) => {
+  console.log("peer disconnect -> ", id);
+});
+
+// define a route handler for the healthcheck
+app.get("/ping", (req, res) => {
+  res.send("pong!");
+});
+
+app.use("/api", peerServer);
