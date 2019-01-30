@@ -12,8 +12,8 @@ const pathToCerts = (name: string) =>
 const httpsOptions = { key: pathToCerts("key"), cert: pathToCerts("cert") };
 
 // start the Express server
-const expressServer = https.createServer(httpsOptions, app).listen(3000, () => {
-  console.log("Express + Peer listening on port 3000! 🔥 https://localhost:3000/");
+const expressServer = https.createServer(httpsOptions, app).listen(port, () => {
+  console.log(`Express + Peer listening on port ${port}! 🔥 https://localhost:${port}/`);
 });
 
 // start the Peer server
