@@ -32,4 +32,4 @@ app.get("/ping", (req, res) => {
   res.send("pong!");
 });
 
-app.use("/api", peerServer);
+app.use("/peerjs", peerServer);
