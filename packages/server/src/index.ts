@@ -4,8 +4,8 @@ import { readFileSync } from "fs";
 import path from "path";
 import https from "https";
 
-const app = express();
-const port = 9000; // default port to listen
+const app: express.Application = express();
+const port: number = 9000; // default port to listen
 const options = { debug: true };
 const pathToCerts = (name: string) =>
   readFileSync(path.resolve(__dirname, "..", "certs", `${name}.dev.pem`));
@@ -28,7 +28,8 @@ peerServer.on("disconnect", (id: string) => {
 });
 
 // define a route handler for the healthcheck
-app.get("/ping", (req, res) => {
+app.get("/ping", (req: express.Request, res: express.Response) => {
+  console.log(req);
   res.send("pong!");
 });
 
