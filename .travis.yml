@@ -12,10 +12,10 @@ install:
 
 matrix:
   include:
-    - name: "Client's app prototype Pipeline"
-      env: PACKAGE_LOCATION=packages/proto-client
-    - name: "Server's app prototype Pipeline"
-      env: PACKAGE_LOCATION=packages/proto-server
+    - name: "Server's Pipeline"
+      env: PACKAGE_LOCATION=packages/server
+    - name: "App's Pipeline"
+      env: PACKAGE_LOCATION=packages/app
 
 script:
   - cd $PACKAGE_LOCATION

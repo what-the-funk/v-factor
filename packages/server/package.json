@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "express": "^4.16.4",
+    "jest": "^24.1.0",
     "peer": "^0.2.10"
   }
 }

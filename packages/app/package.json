@@ -4,10 +4,11 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@zeit/next-typescript": "^1.1.1",
+    "jest": "^24.1.0",
     "next": "^7.0.2",
     "peerjs": "^0.3.20",
     "react": "^16.7.0",
@@ -18,6 +19,7 @@
     "@types/next": "^7.0.7",
     "@types/react": "^16.7.22",
     "@types/react-dom": "^16.0.11",
+    "@zeit/next-typescript": "^1.1.1",
     "fork-ts-checker-webpack-plugin": "^0.5.2"
   }
 }
