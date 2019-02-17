@@ -10,7 +10,7 @@
   "scripts": {
     "dev:app": "lerna run --scope @v-factor/client dev --stream",
     "dev:server": "lerna run --scope @v-factor/server dev --stream",
-    "dev": "npm-run-all --parallel dev:server dev:app",
+    "dev": "lerna run --parallel dev:server dev:app",
     "publish": "lerna run build && lerna publish"
   },
   "dependencies": {
@@ -21,7 +21,6 @@
     "lerna": "^3.6.0",
     "lint-staged": "^8.1.0",
     "nodemon": "^1.18.9",
-    "npm-run-all": "^4.1.5",
     "prettier": "^1.15.3",
     "rimraf": "^2.6.3",
     "ts-jest": "^23.10.5",
