@@ -11,6 +11,7 @@
     "clean": "lerna run clean --stream --parallel",
     "build": "lerna run build --stream --parallel",
     "lint": "lerna run lint --stream --parallel",
+    "prebuild": "yarn lint",
     "pretest": "yarn lint",
     "test": "lerna run test --stream --parallel",
     "start": "yarn workspace @v-factor/client start",

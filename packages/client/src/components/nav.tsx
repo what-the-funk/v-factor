@@ -1,15 +1,15 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 const links = [
-  { href: "/broadcast", label: "Broadcast", key: "" },
+  { href: '/broadcast', label: 'Broadcast', key: '' },
   // { href: "/watch", label: "Watch", key: '' },
 ].map(link => {
   link.key = `nav-link-${link.href}-${link.label}`;
   return link;
 });
 
-const Nav: React.SFC = (): JSX.Element => (
+const NAV: React.SFC = (): JSX.Element => (
   <nav>
     <ul>
       <li>
@@ -30,4 +30,4 @@ const Nav: React.SFC = (): JSX.Element => (
   </nav>
 );
 
-export default Nav;
+export default NAV;
