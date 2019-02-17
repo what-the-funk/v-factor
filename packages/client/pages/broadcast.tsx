@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 
 import Nav from '../src/components/nav';
 
-interface IBroadcastProps {}
+interface BroadcastProps {}
 
 // type BroadcastState {}
 
@@ -38,8 +38,8 @@ const signalingServer = Object.freeze({
   debug: 2,
 });
 
-// export default class Broadcast extends React.Component<IBroadcastProps, BroadcastState> {
-export default class Broadcast extends PureComponent<IBroadcastProps> {
+// export default class Broadcast extends React.Component<BroadcastProps, BroadcastState> {
+export default class Broadcast extends PureComponent<BroadcastProps> {
   public peer: any;
   public roomId: string = v4();
   public localStream: any;

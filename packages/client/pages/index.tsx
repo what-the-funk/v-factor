@@ -3,7 +3,11 @@ import React from 'react';
 import Head from '../src/components/head';
 import Nav from '../src/components/nav';
 
-const HOME: React.SFC = (): JSX.Element => (
+interface Props {
+  posts: any[];
+}
+
+const HOME: React.SFC<Props> = (): JSX.Element => (
   <div>
     <Head title="Home" />
     <Nav />
