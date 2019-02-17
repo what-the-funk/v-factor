@@ -1,34 +1,24 @@
 {
   "name": "@v-factor/server",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "directories": {
-    "lib": "dist"
-  },
-  "files": [
-    "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "clean": "rimraf dist",
-    "lint": "tslint -c ../../tslint.json -p tsconfig.json --fix",
+    "prebuild": "yarn clean",
+    "lint": "tslint -p src --fix",
     "tsc": "tsc",
     "build": "npm-run-all clean lint tsc",
     "dev:start": "npm-run-all build start",
-    "dev": "nodemon --watch src -e ts --exec npm run dev:start",
+    "dev": "nodemon --watch src -e ts --exec npm-run-all dev:start",
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 0"
-  },
-  "devDependencies": {
-    "@types/express": "^4.16.1",
-    "npm-run-all": "^4.1.5"
   },
   "dependencies": {
     "express": "^4.16.4",
     "jest": "^24.1.0",
     "peer": "^0.2.10"
+  },
+  "private": true,
+  "publishConfig": {
+    "access": "public"
   }
 }

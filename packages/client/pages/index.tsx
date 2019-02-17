@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import Head from "../src/components/head";
-import Nav from "../src/components/nav";
+import Head from '../src/components/head';
+import Nav from '../src/components/nav';
 
-const Home: React.SFC = (): JSX.Element => (
+const HOME: React.SFC = (): JSX.Element => (
   <div>
     <Head title="Home" />
     <Nav />
@@ -17,4 +17,4 @@ const Home: React.SFC = (): JSX.Element => (
   </div>
 );
 
-export default Home;
+export default HOME;
