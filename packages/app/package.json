@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "jest": "^24.1.0",
-    "next": "^7.0.2",
-    "peerjs": "^0.3.20",
+    "next": "^8.0.1",
+    "peerjs": "^0.3.22",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "uuid": "^3.3.2"
@@ -19,6 +19,7 @@
     "@types/next": "^7.0.7",
     "@types/react": "^16.7.22",
     "@types/react-dom": "^16.0.11",
+    "@types/webrtc": "^0.0.24",
     "@zeit/next-typescript": "^1.1.1",
     "fork-ts-checker-webpack-plugin": "^0.5.2"
   }

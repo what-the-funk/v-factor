@@ -31,7 +31,6 @@ const Head: React.SFC<HeadProps> = (props): JSX.Element => (
     <meta property="og:image" content={props.ogImage || defaultOGImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js" />
   </NextHead>
 );
 

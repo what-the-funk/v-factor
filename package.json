@@ -8,6 +8,9 @@
     "packages/*"
   ],
   "scripts": {
+    "dev:app": "lerna run --scope @v-factor/app dev --stream",
+    "dev:server": "lerna run --scope @v-factor/server dev --stream",
+    "dev": "npm-run-all --parallel dev:server dev:app",
     "publish": "lerna run build && lerna publish"
   },
   "dependencies": {

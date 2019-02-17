@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import { v4 } from "uuid";
 
-import Head from "../src/components/head";
 import Nav from "../src/components/nav";
 
 type BroadcastProps = {};
@@ -41,38 +40,63 @@ const signalingServer = Object.freeze({
 
 // export default class Broadcast extends React.Component<BroadcastProps, BroadcastState> {
 export default class Broadcast extends PureComponent<BroadcastProps> {
+  peer: any;
   roomId: string = v4();
+  localStream: any;
+  videoRef: React.RefObject<HTMLVideoElement> = React.createRef();
 
   async componentDidMount() {
-    // const Peer: any = require("peerjs");
-    // until https://github.com/peers/peerjs/issues/479 gets fixed Peer is coming from the Head section
-    const Peer: any = (window as any)["Peer"];
-    const peer: any = new Peer(`${this.roomId}-${v4()}`, signalingServer);
+    const peerjs = await import("peerjs");
+    const Peer: any = peerjs.default;
+    this.peer = new Peer(`${this.roomId}_${v4()}`, signalingServer);
+    this.peer.on("connection", this.onConnection);
+    this.peer.on("disconnected", this.onDisconnected);
+    this.peer.on("close", this.onClose);
+    this.peer.on("error", this.onError);
 
-    // peer.on("connection", this.onConnection);
-    // peer.on("disconnected", this.onDisconnected);
-    // peer.on("close", this.onClose);
-    // peer.on("error", this.onError);
-
-    console.log(`[Room] new peer is `, peer);
+    await this.requestLocalVideo();
   }
 
   onConnection(connection: any) {
-    console.log(connection);
+    console.log("connection", connection);
+  }
+
+  onDisconnected() {
+    console.log("disconnected");
+  }
+
+  onClose() {
+    console.log("connection closed");
+  }
+
+  onError(error: any) {
+    console.error(error);
+  }
+
+  async requestLocalVideo() {
+    const constraints: MediaStreamConstraints = {
+      audio: true,
+      video: true,
+    };
+
+    try {
+      const mediaStream: MediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      this.onReceiveLocalStream(mediaStream);
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  onReceiveLocalStream(stream: MediaStream) {
+    const videoElement: HTMLVideoElement = this.videoRef.current as HTMLVideoElement;
+    videoElement.srcObject = stream;
   }
 
   render(): React.ReactNode {
     return (
       <div>
-        <Head title="Home" />
         <Nav />
-
-        <div className="hero">
-          <h1 className="title">Welcome to Next!</h1>
-          <p className="description">
-            To get started, edit <code>pages/index.js</code> and save to reload.
-          </p>
-        </div>
+        <video autoPlay muted ref={this.videoRef} />
       </div>
     );
   }
