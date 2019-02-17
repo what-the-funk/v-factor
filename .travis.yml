@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - 11 # current
   - 10 # lts
 
 cache:
@@ -12,5 +11,8 @@ before_install:
   - export PATH=$HOME/.yarn/bin:$PATH
 
 deploy:
-  script: now public --token $NOW_TOKEN
-  skip_cleanup: true
+  - provider: script
+    script: now public --token $NOW_TOKEN
+    skip_cleanup: true
+    on:
+      branch: next
