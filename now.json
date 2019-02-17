@@ -2,10 +2,11 @@
   "version": 2,
   "name": "v-factor",
   "builds": [
-    { "src": "packages/server/dist/index.js", "use": "@now/node" },
-    { "src": "packages/app/next.config.js", "use": "@now/next" }
+    { "src": "packages/client/package.json", "use": "@now/next" },
+    { "src": "packages/server/dist/index.js", "use": "@now/node" }
   ],
   "routes": [
-    { "src": "/peerjs/(.*)", "dest": "packages/proto-server/dist/index.js" }
+    { "src": "/api/(.*)", "dest": "/packages/server/$1" },
+    { "src": "/(.*)", "dest": "/packages/client/$1" }
   ]
 }

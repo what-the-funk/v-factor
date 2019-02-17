@@ -14,8 +14,8 @@ matrix:
   include:
     - name: "Server's Pipeline"
       env: PACKAGE_LOCATION=packages/server
-    - name: "App's Pipeline"
-      env: PACKAGE_LOCATION=packages/app
+    - name: "Client's Pipeline"
+      env: PACKAGE_LOCATION=packages/client
 
 script:
   - cd $PACKAGE_LOCATION

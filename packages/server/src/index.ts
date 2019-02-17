@@ -5,7 +5,7 @@ import path from "path";
 import https from "https";
 
 const app: express.Application = express();
-const port: number = 9000; // default port to listen
+const port: number = 4000; // default port to listen
 const options = { debug: true };
 const pathToCerts = (name: string) =>
   readFileSync(path.resolve(__dirname, "..", "certs", `${name}.dev.pem`));
