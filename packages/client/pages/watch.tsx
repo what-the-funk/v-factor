@@ -9,7 +9,7 @@ interface BroadcastProps {}
 
 const signalingServer = Object.freeze({
   host: process.env.NODE_ENV === 'production' ? 'my.domain' : 'localhost',
-  port: process.env.NODE_ENV === 'production' ? 443 : 4000,
+  port: process.env.NODE_ENV === 'production' ? 443 : 9000,
   path: '/peerjs',
   secure: true,
   config: {

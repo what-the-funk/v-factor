@@ -1,4 +1,5 @@
-// tslint:disable:no-console
+/* tslint:disable:no-console */
+
 import express from 'express';
 import { ExpressPeerServer } from 'peer';
 import { readFileSync } from 'fs';

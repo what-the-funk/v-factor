@@ -6,14 +6,13 @@
     "clean": "rimraf dist",
     "dev": "nodemon --watch src --ext ts --exec 'npm-run-all build start'",
     "lint": "npm-run-all --parallel lint:src",
-    "lint:src": "tslint --project ./tsconfig.json --fix",
+    "lint:src": "tslint --fix",
     "prebuild": "yarn clean",
-    "start": "node .",
+    "start": "node dist",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
     "express": "^4.16.4",
-    "jest": "^24.1.0",
     "peer": "^0.2.10"
   },
   "private": true,
