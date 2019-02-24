@@ -7,7 +7,7 @@ interface Props {
   posts: any[];
 }
 
-const HOME: React.SFC<Props> = (): JSX.Element => (
+const Home: React.SFC<Props> = (): JSX.Element => (
   <div>
     <Head title="Home" />
     <Nav />
@@ -21,4 +21,4 @@ const HOME: React.SFC<Props> = (): JSX.Element => (
   </div>
 );
 
-export default HOME;
+export default Home;
