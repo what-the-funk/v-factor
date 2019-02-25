@@ -1,38 +1,23 @@
-/* tslint:disable:no-console */
-
-import express from 'express';
-import { ExpressPeerServer } from 'peer';
 import { readFileSync } from 'fs';
-import path from 'path';
+import { resolve } from 'path';
+// import http from 'http';
 import https from 'https';
+import express from 'express';
 
-const app: express.Application = express();
-const port: number = 4000; // default port to listen
-const options = { debug: true };
-const pathToCerts = (name: string) =>
-  readFileSync(path.resolve(__dirname, '..', 'certs', `${name}.dev.pem`));
-const httpsOptions = { key: pathToCerts('key'), cert: pathToCerts('cert') };
+import config from './config';
+import initialSetup from './core/init';
+import connectDatabase from './core/mongo';
+import createExpressApp from './core/express';
 
-// start the Express server
-const expressServer = https.createServer(httpsOptions, app).listen(port, () => {
-  console.log(`Express + Peer listening on port ${port}! 🔥 https://localhost:${port}/`);
-});
+initialSetup();
 
-// start the Peer server
-const peerServer = ExpressPeerServer(expressServer, options);
+const db = connectDatabase();
+const app: express.Application = createExpressApp(db);
+const certificate = readFileSync(resolve(`${__dirname}/../certs/cert.dev.pem`));
+const privateKey = readFileSync(resolve(`${__dirname}/../certs/key.dev.pem`));
+// const httpServer: http.Server = http.createServer(app);
+const credentials: https.ServerOptions = { key: privateKey, cert: certificate };
+const httpsServer: https.Server = https.createServer(credentials, app);
 
-peerServer.on('connection', (id: string) => {
-  console.log('peer connection -> ', id);
-});
-
-peerServer.on('disconnect', (id: string) => {
-  console.log('peer disconnect -> ', id);
-});
-
-// define a route handler for the healthcheck
-app.get('/ping', (req: express.Request, res: express.Response) => {
-  console.log(req);
-  res.send('pong!');
-});
-
-app.use('/peerjs', peerServer);
+// httpServer.listen(config.httpPort);
+httpsServer.listen(config.httpsPort);
