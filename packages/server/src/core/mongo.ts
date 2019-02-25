@@ -2,20 +2,21 @@
 import mongoose from 'mongoose';
 
 import config, { isDevMode } from '../config';
+import logger from './logger';
 
 const onDBError = (error: any) => {
-  console.error(`connection error: ${error}`);
+  logger.error(`connection error: ${error}`);
 };
 
 const onDBOpen = () => {
-  console.log(`Connected to ${config.db.uri}.`);
+  logger.info(`Connected to ${config.db.uri}.`);
 };
 
 export default (): mongoose.Connection => {
   const db: mongoose.Connection = mongoose.connection;
 
   if (db.readyState !== 1) {
-    console.log(`Connecting to ${config.db.uri}...`);
+    logger.info(`Connecting to ${config.db.uri}...`);
     mongoose.connect(config.db.uri, config.db.options);
 
     mongoose.Promise = Promise;

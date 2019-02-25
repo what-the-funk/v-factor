@@ -15,7 +15,9 @@ const base = {
   httpsPort: HTTPS_PORT,
 
   rootPath: paths.root,
-  dataFolder: path.join(paths.packages, 'devdb', 'data'),
+  dataFolder: path.join(paths.packages, 'devdb/data'),
+  logFolder: path.join(paths.server, 'logs'),
+  certsFolder: path.join(paths.server, 'certs'),
 
   db: {
     uri: MONGO_URI,
@@ -26,6 +28,26 @@ const base = {
       useNewUrlParser: true,
       useCreateIndex: false,
     },
+  },
+
+  logging: {
+    console: {
+      level: 'debug',
+    },
+
+    // file: {
+    //   enabled: false,
+    //   path: path.join(paths.server, 'logs'),
+    //   level: 'info',
+    // },
+
+    // papertrail: {
+    //   enabled: false,
+    //   host: null,
+    //   port: null,
+    //   level: 'debug',
+    //   program: 'app',
+    // },
   },
 };
 

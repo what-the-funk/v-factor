@@ -1,9 +1,12 @@
 import path from 'path';
 
+// __dirname => {root}/packages/server/dist/config
+const root = path.join(__dirname, '/../../../../');
+
 const paths = {
-  root: path.resolve(__dirname, '/../../'),
-  packages: path.resolve(__dirname, '/../../packages'),
-  server: path.resolve(__dirname, '/../../packages/server'),
+  root,
+  packages: path.join(root, 'packages'),
+  server: path.join(root, 'packages/server'),
 };
 
 export default paths;

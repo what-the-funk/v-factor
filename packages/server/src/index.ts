@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-import { resolve } from 'path';
 // import http from 'http';
 import https from 'https';
 import express from 'express';
@@ -13,8 +12,8 @@ initialSetup();
 
 const db = connectDatabase();
 const app: express.Application = createExpressApp(db);
-const certificate = readFileSync(resolve(`${__dirname}/../certs/cert.dev.pem`));
-const privateKey = readFileSync(resolve(`${__dirname}/../certs/key.dev.pem`));
+const certificate = readFileSync(`${config.certsFolder}/cert.dev.pem`);
+const privateKey = readFileSync(`${config.certsFolder}/key.dev.pem`);
 // const httpServer: http.Server = http.createServer(app);
 const credentials: https.ServerOptions = { key: privateKey, cert: certificate };
 const httpsServer: https.Server = https.createServer(credentials, app);
